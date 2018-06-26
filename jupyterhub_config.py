@@ -129,3 +129,12 @@ environ_config_file = '/opt/app-root/configs/jupyterhub_config.py'
 if os.path.exists(environ_config_file):
     with open(environ_config_file) as fp:
         exec(compile(fp.read(), environ_config_file, 'exec'), globals())
+
+# Cull idle servers after 30 minutes
+c.JupyterHub.services = [
+    {
+        'name': 'cull-idle',
+        'admin': True,
+        'command': ['cull-idle-servers', '--timeout=1800'],
+    }
+]
