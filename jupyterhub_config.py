@@ -84,7 +84,29 @@ else:
 
 c.JupyterHub.authenticator_class = 'tmpauthenticator.TmpAuthenticator'
 
-c.JupyterHub.spawner_class = 'kubespawner.KubeSpawner'
+#c.JupyterHub.spawner_class = 'kubespawner.KubeSpawner'
+c.JupyterHub.spawner_class = 'wrapspawner.ProfilesSpawner'
+
+c.ProfilesSpawner.profiles = [
+    (
+        "Minimal Notebook (CentOS 7 / Python 3.5)",
+        's2i-minimal-notebook',
+        'kubespawner.KubeSpawner',
+        dict(singleuser_image_spec='s2i-minimal-notebook:3.5')
+    ),
+    (
+        "SciPy Notebook (CentOS 7 / Python 3.5)",
+        's2i-scipy-notebook',
+        'kubespawner.KubeSpawner',
+        dict(singleuser_image_spec='s2i-scipy-notebook:3.5')
+    ),
+    (
+        "Tensorflow Notebook (CentOS 7 / Python 3.5)",
+        's2i-tensorflow-notebook',
+        'kubespawner.KubeSpawner',
+        dict(singleuser_image_spec='s2i-tensorflow-notebook:3.5')
+    )
+]
 
 c.KubeSpawner.singleuser_image_spec = os.environ.get('JUPYTERHUB_NOTEBOOK_IMAGE',
         's2i-minimal-notebook:3.5')
